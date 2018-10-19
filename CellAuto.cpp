@@ -1,20 +1,21 @@
 
 #include <iostream>
 #include <cmath>
+#include <bitset>
 using namespace std;
 
 
-/*struct cellVals{
+struct cellVals{
   std::bitset<3> values;
   int output;
-};*/
+};
 int convertBinaryToDecimal(long long);
 long long convertDecimalToBinary(int);
 
 
 int main ()
 {
- //cellVals outputRels [8];
+ cellVals outputRels [8];
    
 }
 
