@@ -1,0 +1,13 @@
+stuff people are working on or want to work on so it's easier not to forget:
+
+FRANK
+fixing gen.cpp to work with non-constant numbers, that means:
+  combining separate files/classes to work together
+  maybe changing function signatures to take widths etc as inputs
+
+LACHLAN
+converting decimal to binary
+
+
+AFZAL
+menus and inputs
