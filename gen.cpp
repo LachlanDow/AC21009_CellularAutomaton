@@ -122,7 +122,6 @@ void printLine(bool line[], int arrayLength) {
 		} else {
 			cout << "□ ";
 		}
-		line[i] ?
 	}
 	cout <<endl;
 }
