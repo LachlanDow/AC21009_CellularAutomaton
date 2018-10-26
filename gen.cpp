@@ -2,8 +2,10 @@
 #include <array>
 using namespace std;
 
-const static int width = 32; //temp, ask for width later
-const static int height = 16; //temp, ask for number of generations later
+
+int width = 32; //temp, ask for width later
+
+int height = 16; //temp, ask for number of generations later
 const static int ruleSize = 8;
 
 
@@ -16,11 +18,13 @@ struct ruleBlock {
 } ;
 
 ruleBlock rule[ruleSize];
-bool parent[width], child[width];	//temp ...or not?
+//bool parent[width], child[width];	//temp ...or not?
 									//probable keep global but allocate memory dynamically
 
+bool *parent, *child;
+
 void printLine(bool line[], int arrayLength);
-void nextGen(bool parent[], bool (&child)[width]);
+void nextGen(bool parent[], bool child[]);
 void generateAndPrint();
 void init();
 
@@ -49,6 +53,8 @@ void generateAndPrint () {
 }
 
 void init() {
+	parent = new bool[width];
+	child = new bool[width];
 
 	//first set values of both lines to false
 	for (int i= 0; i <width; i++) {
@@ -80,7 +86,7 @@ void init() {
 	rule[7].output=0;
 }
 
-void nextGen(bool parent[], bool (&child)[width]) {
+void nextGen(bool parent[], bool child[]) {
 
 	array<bool, 3> parentIn;
 
