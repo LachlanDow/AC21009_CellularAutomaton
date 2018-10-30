@@ -30,6 +30,7 @@ private:
 	int width, height;
 	bool *parent, *child;
 	int seed; //should be an array of size width
+	ruleBlock rule[ruleSize];
 public: 
 	int run();
 	void printLine(bool line[], int arrayLength);

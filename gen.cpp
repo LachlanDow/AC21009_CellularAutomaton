@@ -11,7 +11,7 @@ int seed; //should be an array of size width
 //int width = 32; //temp, ask for width later
 //int height = 16; //temp, ask for number of generations later
 
-ruleBlock rule[ruleSize]; //TODO probably move this to the class too;
+//ruleBlock rule[ruleSize]; //TODO probably move this to the class too;
 
 //the main() should probably be moved to a different file
 int Gen::run() {
