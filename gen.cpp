@@ -1,44 +1,44 @@
 #include <iostream>
-#include <array>
+//#include <array>
+#include "gen.h"
 using namespace std;
 
-
-int width = 32; //temp, ask for width later
-
-int height = 16; //temp, ask for number of generations later
-const static int ruleSize = 8;
-
-
-struct ruleBlock {
-	//rename this?
-	array<bool, 3> input;	// 0, 1, 2 correspond to the square to the left, centre, and right
-					// of the child node in the parent
-
-	bool output;	// the result, from the rule
-} ;
-
-ruleBlock rule[ruleSize];
-//bool parent[width], child[width];	//temp ...or not?
-									//probable keep global but allocate memory dynamically
-
+/*
 bool *parent, *child;
+int width, height;
+int seed; //should be an array of size width
+*/
+//int width = 32; //temp, ask for width later
+//int height = 16; //temp, ask for number of generations later
 
-void printLine(bool line[], int arrayLength);
-void nextGen(bool parent[], bool child[]);
-void generateAndPrint();
-void init();
-
+ruleBlock rule[ruleSize]; //TODO probably move this to the class too;
 
 //the main() should probably be moved to a different file
-int main() {
+int Gen::run() {
 
-	init();
+	//was gonna have more than a single function in here so we might want to
+	//remove this before submitting;
 	generateAndPrint();
 
 	return 0;
 }
 
-void generateAndPrint () {
+Gen::Gen(){
+	width = 32;
+	height = 16;
+	seed = 15;
+	init();
+}
+
+Gen::Gen(int width, int height, int seed, int rule) {
+	this->width = width;
+	this->height = height;
+	this->seed = seed; //should be an array
+	cout << "ignoring your choice of rule " << rule << " and using rule 30 instead." <<endl;
+	init(); //ignoring rule for now
+}
+
+void Gen::generateAndPrint () {
 	for (int i=0; i < height; i++) { //height is the number of generations
 
 		printLine(parent, width);
@@ -52,7 +52,7 @@ void generateAndPrint () {
 
 }
 
-void init() {
+void Gen::init() {
 	parent = new bool[width];
 	child = new bool[width];
 
@@ -62,7 +62,7 @@ void init() {
 		child[i]=false;
 	}
 
-	parent[15]=true; // seed, temp.
+	parent[seed]=true; // seed, temp.
 
 	//set different inputs for each rule
 	rule[0].input = {0,0,0};
@@ -86,7 +86,7 @@ void init() {
 	rule[7].output=0;
 }
 
-void nextGen(bool parent[], bool child[]) {
+void Gen::nextGen(bool parent[], bool child[]) {
 
 	array<bool, 3> parentIn;
 
@@ -121,7 +121,7 @@ void nextGen(bool parent[], bool child[]) {
 
 
 //prints a bool array as a line with  "□ " as a false and "■ " as a true
-void printLine(bool line[], int arrayLength) {
+void Gen::printLine(bool line[], int arrayLength) {
 	for (int i= 0; i <arrayLength; i++) {
 		if (line[i]) {
 			cout << "■ ";
