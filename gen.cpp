@@ -24,18 +24,20 @@ int Gen::run() {
 }
 
 Gen::Gen(){
-	width = 32;
-	height = 16;
-	seed = 15;
+	setParams(32,16,15,30);
 	init();
 }
 
 Gen::Gen(int width, int height, int seed, int rule) {
+	setParams(width,height, seed, rule);
+	init(); //ignoring rule for now
+}
+
+void Gen::setParams(int width, int height, int seed, int rule) {
 	this->width = width;
 	this->height = height;
 	this->seed = seed; //should be an array
 	cout << "ignoring your choice of rule " << rule << " and using rule 30 instead." <<endl;
-	init(); //ignoring rule for now
 }
 
 void Gen::generateAndPrint () {
@@ -64,26 +66,12 @@ void Gen::init() {
 
 	parent[seed]=true; // seed, temp.
 
-	//set different inputs for each rule
-	rule[0].input = {0,0,0};
-	rule[1].input = {0,0,1};
-	rule[2].input = {0,1,0};
-	rule[3].input = {0,1,1};
-	rule[4].input = {1,0,0};
-	rule[5].input = {1,0,1};
-	rule[6].input = {1,1,0};
-	rule[7].input = {1,1,1};
+	initRule();
 
 	//temp, rule 30 (if ascending, i.e [0] refers to 000, [1] to 001, etc,  [7] to 111)
 	//TODO - ask the user for a number, convert it to binary and save each digit here
-	rule[0].output=0;
-	rule[1].output=1;
-	rule[2].output=1;
-	rule[3].output=1;
-	rule[4].output=1;
-	rule[5].output=0;
-	rule[6].output=0;
-	rule[7].output=0;
+	bool rule30[ruleSize] = {0,1,1,1,1,0,0,0};
+	setRule(rule30);
 }
 
 void Gen::nextGen(bool parent[], bool child[]) {
@@ -130,4 +118,41 @@ void Gen::printLine(bool line[], int arrayLength) {
 		}
 	}
 	cout <<endl;
+}
+
+
+// hard-code different inputs for each rule,
+// so rule[0] has the rule for when the parent cells are {0,0,0}, 
+// rule [1] for {0,0,1} etc.
+void Gen::initRule(){
+	rule[0].input = {0,0,0};
+	rule[1].input = {0,0,1};
+	rule[2].input = {0,1,0};
+	rule[3].input = {0,1,1};
+	rule[4].input = {1,0,0};
+	rule[5].input = {1,0,1};
+	rule[6].input = {1,1,0};
+	rule[7].input = {1,1,1};
+}
+
+void Gen::setRule(int num) {
+	//TODO make sure it is in the acceptable range
+	
+	//TODO convert decimal number to array of bools, kinda like:
+	/*
+	Convert con;
+	bool rule[rulesize]; //
+	con.DecimalToBinary(num, rule); //rule is an array, will be automatically passed
+									//as a pointer and will be changed to 1s and 0s
+
+		//or:
+	bool rule[ruleSize] = con.DecimalToBinary(num); //if we figure out how to return an array
+	*/
+	cerr <<"this is not yet supported" <<endl;
+}
+
+void Gen::setRule(bool rule[ruleSize]) {
+	for (int i = 0; i < ruleSize; i++) {
+		this->rule[i].output = rule[i];
+	}
 }

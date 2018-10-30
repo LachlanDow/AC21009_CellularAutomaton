@@ -31,12 +31,18 @@ private:
 	bool *parent, *child;
 	int seed; //should be an array of size width
 	ruleBlock rule[ruleSize];
+
+	void init();
+	void initRule();
 public: 
 	int run();
 	void printLine(bool line[], int arrayLength);
 	void nextGen(bool parent[], bool child[]);
 	void generateAndPrint();
-	void init();
+	void setRule(int);
+	void setRule(bool ruleSize[]);
+
+	void setParams(int,int,int,int);
 
 	Gen();
 	Gen(int, int, int, int); //third int should be an array
