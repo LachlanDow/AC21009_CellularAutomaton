@@ -4,7 +4,6 @@
 using namespace std;
 
 int main(){
-	Gen gen;
 	int width, height, seed, rule;
 	cout << "Enter your desired width: " << flush;
 	cin >> width;
@@ -22,6 +21,7 @@ int main(){
 		<< ", seed " << seed << ", rule " << rule << endl;
 	cout << "Ignoring those values and using defaults 32, 16, 15, 30." << endl;
 	
+	Gen gen;
 	gen.run();
 
 	Gen gen2(width, height, seed, rule);
