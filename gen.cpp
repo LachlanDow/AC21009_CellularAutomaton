@@ -37,7 +37,8 @@ void Gen::setParams(int width, int height, int seed, int rule) {
 	this->width = width;
 	this->height = height;
 	this->seed = seed; //should be an array
-	cout << "ignoring your choice of rule " << rule << " and using rule 30 instead." <<endl;
+	this->setRule(rule);
+	//cout << "ignoring your choice of rule " << rule << " and using rule 30 instead." <<endl;
 }
 
 
@@ -71,8 +72,8 @@ void Gen::init() {
 
 	//temp, rule 30 (if ascending, i.e [0] refers to 000, [1] to 001, etc,  [7] to 111)
 	//TODO - ask the user for a number, convert it to binary and save each digit here
-	bool rule30[ruleSize] = {0,1,1,1,1,0,0,0};
-	setRule(rule30);
+//	bool rule30[ruleSize] = {0,1,1,1,1,0,0,0};
+	setRule(45);
 }
 
 void Gen::nextGen(bool parent[], bool child[]) {
@@ -137,8 +138,13 @@ void Gen::initRule(){
 }
 
 void Gen::setRule(int num) {
-	//TODO make sure it is in the acceptable range
 
+	while(num <0 && num >255){
+		std::cout << "This is not within the valid range for a rule, Please enter again" << '\n';
+		std::cin >> num;
+	}
+
+ 	this->decimalToBinary(num);
 	//TODO convert decimal number to array of bools, kinda like:
 	/*
 	Convert con;
@@ -152,36 +158,16 @@ void Gen::setRule(int num) {
 
 	cerr <<"this is not yet supported" <<endl;
 }
-int Gen::binaryToDecimal(int n){
-/*	//binary to be converted
-	int number = n;
+void Gen::binaryToDecimal(int n){
 
-	// converted decimal
-	int decimal = 0;
-
-	int base = 1;
-	int temp = num;
-
-		while(temp)
-		{
-			int last = temp % 10;
-			temp = temp / 10;
-			decimal += last*base;
-			base = base * 2;
-
-		}*/
-		int decimal = 30
-		return  decimal;
 }
 
-int Gen::DecimalToBinary(int n, bool[] rule){
+void Gen::decimalToBinary(int n){
 	int i = 0;
 	while (n > 0){
-		rule[i].output = n % 2;
+		this->rule[7-i].output = n % 2;
 		n =n/2;
-		i++
-	}
-
+		i++;
 	}
 }
 
