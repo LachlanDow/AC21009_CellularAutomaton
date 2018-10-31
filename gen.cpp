@@ -40,6 +40,7 @@ void Gen::setParams(int width, int height, int seed, int rule) {
 	cout << "ignoring your choice of rule " << rule << " and using rule 30 instead." <<endl;
 }
 
+
 void Gen::generateAndPrint () {
 	for (int i=0; i < height; i++) { //height is the number of generations
 
@@ -79,13 +80,13 @@ void Gen::nextGen(bool parent[], bool child[]) {
 	array<bool, 3> parentIn;
 
 	//first deal with tile at position 0 which has nothing to its left - wrap around to the end
-	parentIn = {parent[width-1], parent[0], parent[1]}; 
+	parentIn = {parent[width-1], parent[0], parent[1]};
 	for (int i=0; i <ruleSize; i++) {	//try each rule
 		if (parentIn == rule[i].input) {	//if a match is found
 			child[0]=rule[i].output;	//set the tile in child to the output of the matching rule
 		}
 	}
-	
+
 	//then the last tile - similarly to above
 	parentIn = {parent[width-2], parent[width-1], parent[0]};
 	for (int i=0; i <ruleSize; i++) {
@@ -96,7 +97,7 @@ void Gen::nextGen(bool parent[], bool child[]) {
 
 
 	//finally deal with the middle
-	for (int j=1; j < (width)-1; j++) { //skipping the 0th and last elements 
+	for (int j=1; j < (width)-1; j++) { //skipping the 0th and last elements
 		parentIn = {parent[j-1], parent[j], parent[j+1]};
 		for (int i=0; i <ruleSize; i++) {
 			if (parentIn == rule[i].input) {
@@ -122,7 +123,7 @@ void Gen::printLine(bool line[], int arrayLength) {
 
 
 // hard-code different inputs for each rule,
-// so rule[0] has the rule for when the parent cells are {0,0,0}, 
+// so rule[0] has the rule for when the parent cells are {0,0,0},
 // rule [1] for {0,0,1} etc.
 void Gen::initRule(){
 	rule[0].input = {0,0,0};
@@ -137,7 +138,7 @@ void Gen::initRule(){
 
 void Gen::setRule(int num) {
 	//TODO make sure it is in the acceptable range
-	
+
 	//TODO convert decimal number to array of bools, kinda like:
 	/*
 	Convert con;
@@ -148,8 +149,42 @@ void Gen::setRule(int num) {
 		//or:
 	bool rule[ruleSize] = con.DecimalToBinary(num); //if we figure out how to return an array
 	*/
+
 	cerr <<"this is not yet supported" <<endl;
 }
+int Gen::binaryToDecimal(int n){
+/*	//binary to be converted
+	int number = n;
+
+	// converted decimal
+	int decimal = 0;
+
+	int base = 1;
+	int temp = num;
+
+		while(temp)
+		{
+			int last = temp % 10;
+			temp = temp / 10;
+			decimal += last*base;
+			base = base * 2;
+
+		}*/
+		int decimal = 30
+		return  decimal;
+}
+
+int Gen::DecimalToBinary(int n, bool[] rule){
+	int i = 0;
+	while (n > 0){
+		rule[i].output = n % 2;
+		n =n/2;
+		i++
+	}
+
+	}
+}
+
 
 void Gen::setRule(bool rule[ruleSize]) {
 	for (int i = 0; i < ruleSize; i++) {

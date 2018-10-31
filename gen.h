@@ -34,13 +34,14 @@ private:
 
 	void init();
 	void initRule();
-public: 
+public:
 	int run();
 	void printLine(bool line[], int arrayLength);
 	void nextGen(bool parent[], bool child[]);
 	void generateAndPrint();
 	void setRule(int);
 	void setRule(bool ruleSize[]);
+
 
 	void setParams(int,int,int,int);
 

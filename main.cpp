@@ -17,15 +17,15 @@ int main(){
 	cout << "What rule do you want to use? " << flush;
 	cin >> rule;
 
-	cout << "width " << width << ", height " << height 
+	cout << "width " << width << ", height " << height
 		<< ", seed " << seed << ", rule " << rule << endl;
 	cout << "Ignoring those values and using defaults 32, 16, 15, 30." << endl;
-	
+
 	Gen gen;
 	gen.run();
 
 	Gen gen2(width, height, seed, rule);
 	gen2.run();
-	
+
 	return 0;
 }
