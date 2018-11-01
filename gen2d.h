@@ -58,7 +58,7 @@ public:
 
 	//void setParams(int,int,int,int);
 
-	Gen2d();
+	Gen2d(int width, int height);
 	//Gen(int, int, int, int); //third int should be an array
 };
 
