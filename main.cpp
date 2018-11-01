@@ -1,5 +1,6 @@
 #include <iostream>
 #include "gen.h"
+#include "gen2d.h"
 
 using namespace std;
 
@@ -14,7 +15,6 @@ int prmenu(Gen gen);
 int main() {
 	int menu;
 	do {
-		//cout << "\033[2J\033[1;1H" << flush;
 		cout << "\nCELLULAR AUTOMATON MAIN MENU\n" << flush;
 		cout << "1- Create Cellular Automaton\n" << flush;
 		cout << "2- Create 2D Cellular Automaton\n" << flush;
@@ -44,35 +44,6 @@ int main() {
 	return 0;
 }
 
-
-//sub menu for creating automatons
-int create1D(){
-	int menu;
-	
-	do{
-		cout << "\nCREATING CELLULAR AUTOMATON MENU\n";
-		cout << "1. 1D Cellular Automaton\n";
-		cout << "2. 2D Cellular Automaton\n";
-		cout << "3. Quit\n";
-		cin >> menu;
-
-		switch (menu){
-		case 1:
-			getinput1();	//get inputs for 1D and execute relevant sub menus
-			break;
-		case 2:
-			getinput2();    //get inputs for 2D and execute relevant sub menus
-			break;
-		case 3:
-			break;
-		default:
-			cout << "INVALID INPUT!!! RE-ENTER MENU INPUT: \n";
-		}
-	}while(menu != 3);
-	return 0;
-}
-
-
 //get inputs for 1D automaton
 int getinput1(){
 	cout << "\033[2J\033[1;1H" << flush;
@@ -92,18 +63,18 @@ int getinput1(){
 	cout << "width " << width << ", height " << height <<  ", seed " << seed << ", rule " << rule;
 	cout << "Ignoring those values and using defaults 32,16,15,39.";
 
-	Gen gen;
-	gen.run();
-//	prmenu(gen);		//default vers
+//	Gen gen;
+//	gen.run();		//default vers
 
 	Gen gen2(width, height, seed, rule);
-	gen2.run();
-//	prmenu(gen2);		//user vers
+	gen2.run();		//user vers
 
 	return 0;
 
 }
 
+
+//Get inputs for 2D Automaton
 int getinput2(){
 	cout << "\033[2J\033[1;1H" << flush;
 	int width, height;
@@ -113,30 +84,11 @@ int getinput2(){
 	cout << "Enter your desired height: " << flush;
 	cin >> height;
 
-	Gen2d gen2d(width, height);
+	Gen2d gen2d(20,20);
 	gen2d.run();
+
+	//Gen2d gen2d(width, height);
+	//gen2d.run();
 	return 1;
 }
 
-int prmenu(Gen gen){
-	int menu;
-
-	cout << "\nPRINT MENU\n";
-	cout << "1. Display Cellular Automaton\n";
-	cout << "2. Quit\n";
-	cin >> menu;
-
-	do{
-		switch(menu){
-			case 1:
-				gen.run();
-				return 0;
-				break;
-			case 2:
-				break;
-			default:
-				cout << "INVALID INPUT!!! RE-ENTER MENU INPUT: ";
-		}
-	}while(menu != 2);
-	return 0;
-}
