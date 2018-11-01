@@ -82,24 +82,24 @@ int getinput1(){
 	cout << "What rule do you want to use? " << flush;
 	cin >> rule;
 
-<<<<<<< HEAD
+//<<<<<<< HEAD
 	cout << "width " << width << ", height " << height
 		<< ", seed " << seed << ", rule " << rule << endl;
 	cout << "Ignoring those values and using defaults 32, 16, 15, 30." << endl;
-=======
+//=======
 	cout << "width " << width << ", height " << height <<  ", seed " << seed << ", rule " << rule;
 	cout << "Ignoring those values and using defaults 32,16,15,39.";
->>>>>>> 8f2ae5de79480114d4f19d2551adb133c326f8f9
+//>>>>>>> 8f2ae5de79480114d4f19d2551adb133c326f8f9
 
 	Gen gen;
 //	gen.run();
 	prmenu(gen);		//default vers
 
 	Gen gen2(width, height, seed, rule);
-<<<<<<< HEAD
-	gen2.run();
+//<<<<<<< HEAD
+//	gen2.run();
 
-=======
+//=======
 //	gen2.run();
 	prmenu(gen2);		//user vers
 
@@ -132,6 +132,6 @@ int prmenu(Gen gen){
 				cout << "INVALID INPUT!!! RE-ENTER MENU INPUT: ";
 		}
 	}while(menu != 3);
->>>>>>> 8f2ae5de79480114d4f19d2551adb133c326f8f9
+//>>>>>>> 8f2ae5de79480114d4f19d2551adb133c326f8f9
 	return 0;
 }
