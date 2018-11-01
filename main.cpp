@@ -67,7 +67,6 @@ int ca(){
 			iss.clear();
 			char s;
 			iss >> s;
-			cout << s << " is not a number, skipping it." << endl;
 		}
 	}
 
