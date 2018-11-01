@@ -60,9 +60,15 @@ int ca(){
 	vector<int> seed;
 	stringstream iss(line);
 
-	while ( iss >> number ) {
-		seed.push_back( number );
-		//https://stackoverflow.com/a/20659156
+	while (iss) {
+		if (iss >> number) { //https://stackoverflow.com/a/20659156
+			seed.push_back( number );
+		} else {
+			iss.clear();
+			char s;
+			iss >> s;
+			cout << s << " is not a number, skipping it." << endl;
+		}
 	}
 
 	cout << "What rule do you want to use? " << flush;
