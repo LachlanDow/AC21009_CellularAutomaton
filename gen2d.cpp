@@ -122,6 +122,7 @@ void Gen2d::generateAndPrint(){
 		printGrid(parent);
 		nextGen();
 		parent = child;	
+		cout << "Press enter to show the next generation, or input any other character to stop." <<endl;
 		c = cin.get();
 		//std::this_thread::sleep_for(std::chrono::milliseconds(150)); //https://stackoverflow.com/a/10613664
 	}
