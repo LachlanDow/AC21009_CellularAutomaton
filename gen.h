@@ -1,4 +1,5 @@
 #include <array>
+#include <vector>
 
 using namespace std;
 
@@ -7,6 +8,7 @@ using namespace std;
 //int width = 32; //temp, ask for width later
 //int height = 16; //temp, ask for number of generations later
 const static int ruleSize = 8;
+const static char filename[] = "output.txt";
 //int width, height;
 
 struct ruleBlock {
@@ -29,7 +31,7 @@ class Gen {
 private:
 	int width, height;
 	bool *parent, *child;
-	int seed; //should be an array of size width
+	vector<int> seed; //should be an array of size width
 	ruleBlock rule[ruleSize];
 
 	void init();
@@ -45,9 +47,12 @@ public:
 	void decimalToBinary(int);
 
 	void setParams(int,int,int,int);
+	void setParams(int, int, vector<int>, int);
+	void seedca(vector<int>);
 
 	Gen();
-	Gen(int, int, int, int); //third int should be an array
+	Gen(int, int, int, int); 
+	Gen(int width, int height, vector<int> seed, int rule);
 };
 
 /*

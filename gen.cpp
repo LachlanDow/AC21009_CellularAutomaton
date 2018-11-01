@@ -1,4 +1,5 @@
 #include <iostream>
+#include <fstream>
 //#include <array>
 #include "gen.h"
 using namespace std;
@@ -33,12 +34,22 @@ Gen::Gen(int width, int height, int seed, int rule) {
 	init(); //ignoring rule for now
 }
 
+Gen::Gen(int width, int height, vector<int> seed, int rule) {
+	
+	setParams(width,height, seed, rule);
+	init();
+}
+
 void Gen::setParams(int width, int height, int seed, int rule) {
+	vector<int> s(1, seed);
+	setParams(width, height, s, rule);
+}
+
+void Gen::setParams(int width, int height, vector<int> seed, int rule) {
 	this->width = width;
 	this->height = height;
-	this->seed = seed; //should be an array
-	 setRule(rule);
-	//cout << "ignoring your choice of rule " << rule << " and using rule 30 instead." <<endl;
+	this->seed = seed;
+	setRule(rule);
 }
 
 
@@ -66,7 +77,7 @@ void Gen::init() {
 		child[i]=false;
 	}
 
-	parent[seed]=true; // seed, temp.
+	//parent[seed]=true; // seed, temp.
 
 	initRule();
 
@@ -74,6 +85,13 @@ void Gen::init() {
 	//TODO - ask the user for a number, convert it to binary and save each digit here
 	//bool rule30[ruleSize] = {0,1,1,1,1,0,0,0};
 	//setRule(45);
+	seedca(seed);
+}
+
+void Gen::seedca(vector<int> seed) {
+	for (unsigned long i = 0; i< seed.size(); i++) {
+		parent[seed.at(i) % width] = true;
+	}
 }
 
 void Gen::nextGen(bool parent[], bool child[]) {
@@ -112,14 +130,20 @@ void Gen::nextGen(bool parent[], bool child[]) {
 
 //prints a bool array as a line with  "□ " as a false and "■ " as a true
 void Gen::printLine(bool line[], int arrayLength) {
+	ofstream fout;
+	fout.open(filename, fstream::app);
 	for (int i= 0; i <arrayLength; i++) {
 		if (line[i]) {
-			cout << "■ ";
+			cout << "■ " << flush;
+			fout << "■ ";
 		} else {
-			cout << "□ ";
+			cout << "□ " << flush;
+			fout << "□ ";
 		}
 	}
 	cout <<endl;
+	fout <<endl;
+	fout.close();
 }
 
 
@@ -139,7 +163,7 @@ void Gen::initRule(){
 
 void Gen::setRule(int num) {
 
-	while(num <0 && num >255){
+	while(num <0 || num >255){
 		std::cout << "This is not within the valid range for a rule, Please enter again" << '\n';
 		std::cin >> num;
 	}

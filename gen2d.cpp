@@ -19,9 +19,9 @@ Gen2d::Gen2d(int width, int height){
 
 //seed and run
 int Gen2d::run() {
-	gliderseed();
+	//gliderseed();
 	//generateAndPrint(gens);
-	//randomize();
+	randomize();
 	generateAndPrint();
 
 	return 0;
@@ -158,9 +158,9 @@ void Gen2d::printGrid(vector<vector<bool>> grid) {
 		vector<bool>::iterator rowIt;
 		for (rowIt = (*colIt).begin(); rowIt != (*colIt).end(); ++rowIt) {
 			if (*rowIt) {
-				cout << "■ " <<flush;
+				cout << "😂 " <<flush;
 			} else {
-				cout << "□ " <<flush;
+				cout << "🌑 " <<flush;
 			}
 		}
 		cout << "\n";
