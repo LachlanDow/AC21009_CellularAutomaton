@@ -6,11 +6,6 @@
 #include <ctime>
 #include "gen2d.h"
 
-//clear the screen
-void clearScreen()
-{
-	cout << "\n\n" << "\033[2J\033[1;1H" << flush;
-}
 
 //constructor with width and height
 Gen2d::Gen2d(int width, int height){
@@ -19,27 +14,33 @@ Gen2d::Gen2d(int width, int height){
 
 //seed and run
 int Gen2d::run() {
-	//gliderseed();
-	//generateAndPrint(gens);
-	randomize();
-	generateAndPrint();
+	//gliderseed(); //can be used to seed the grid with a glider instead of random values
+	//generateAndPrint(50, 150); //can be used to generate and print automatically
+	randomize(); //seed the grid with random values
+	generateAndPrint(); //run the generation cycle
 
 	return 0;
 }
 
 //initialise with width and height, make all values in the grid 0
 void Gen2d::init(int width, int height) {
-
+	//set values
 	this->width = width;
 	this->height = height;
-	gens = 50;
+
+	//set up the grid vectors
 	parent.resize(height);
 	child.resize(height);
-	//TODO do this in a single for loop
+
+	//set the values at each spot in the vectors to false
 	for (int i = 0; i<height; i++) {
+
+		//set up each line vector
 		parent.at(i).resize(width);
 		child.at(i).resize(width);
+
 		for (int j=0; j<width; j++) {
+			//set everever value in the grids to false
 			parent.at(i).at(j) = 0;
 			child.at(i).at(j) = 0;
 		}
@@ -48,13 +49,11 @@ void Gen2d::init(int width, int height) {
 
 //put random values into the grid
 void Gen2d::randomize(){
-	srand(time(0));
+	srand(time(0));	//seed rand with time; this is fine as we only care about whether
+					//a number is odd or even
 	for (int i = 0; i<height; i++) {
-		parent.at(i).resize(width);
-		child.at(i).resize(width);
 		for (int j=0; j<width; j++) {
-			parent.at(i).at(j) = (rand()%2);
-			child.at(i).at(j) = 0;
+			parent.at(i).at(j) = (rand()%2); //set each cell to a random bool
 		}
 	}
 }
@@ -62,21 +61,22 @@ void Gen2d::randomize(){
 //set the values at the selected positions to 1 without changing any others
 void Gen2d::seed(vector<Position> seed){
 	for (auto &pos : seed) {
-		//set valus at pos to 1
-		parent.at(pos.row).at(pos.col) = 1;
+		//set valus at pos to true
+		parent.at(pos.row).at(pos.col) = true;
 	}
 }
 
 //seeds a glider, only use this if the grid is large enough
 void Gen2d::gliderseed(){
+	//the cell positions of a glider
 	vector<Position> pos(5);
-	pos.at(0).row = 1;
-	pos.at(0).col = 2;
-	pos.at(1).row = 2;
-	pos.at(1).col = 3;
+	pos.at(0).row = 0;
+	pos.at(0).col = 1;
+	pos.at(1).row = 1;
+	pos.at(1).col = 2;
 	for (int i =2; i < 5; i++) {
-		pos.at(i).row = 3;
-		pos.at(i).col = i-1;
+		pos.at(i).row = 2;
+		pos.at(i).col = i-2;
 
 	}
 	seed(pos);
@@ -85,10 +85,12 @@ void Gen2d::gliderseed(){
 //generates 'numOfGens' generations and print them with 'millis' millisecond long breaks;
 void Gen2d::generateAndPrint(int numOfGens, int millis){
 	for(int i = 0; i < numOfGens; i++) {
-		printGrid(parent);
-		nextGen();
-		parent = child;	
-		std::this_thread::sleep_for(std::chrono::milliseconds(millis)); //https://stackoverflow.com/a/10613664
+		//loop numOfGens times
+		printGrid(parent); //print the grid
+		nextGen(); //get the next generation
+		parent = child;	 //set the parent to the child
+		std::this_thread::sleep_for(std::chrono::milliseconds(millis)); //sleep
+		 //https://stackoverflow.com/a/10613664
 	}
 }
 
@@ -97,12 +99,12 @@ void Gen2d::generateAndPrint(int numOfGens, int millis){
 void Gen2d::generateAndPrint(){
 	char c = '\n';
 	while(c == '\n') {
-		printGrid(parent);
-		nextGen();
-		parent = child;	
+		//while the input is only a newline character and nothing else
+		printGrid(parent); //print the grid
+		nextGen(); //get the next generation
+		parent = child;	 //set the parent to the child
 		cout << "Press enter to show the next generation, or input any other character to stop." <<endl;
-		c = cin.get();
-		//std::this_thread::sleep_for(std::chrono::milliseconds(150)); //https://stackoverflow.com/a/10613664
+		c = cin.get(); //get the next character
 	}
 }
 
@@ -111,8 +113,9 @@ void Gen2d::nextGen() {
 
 	for (int row = 0; row<height; row++) {
 		for (int col=0; col<width; col++) {
-			int num = count(row, col); //count always counts parent
-			int newVal;
+			//for each cell
+			int num = count(row, col); //count the number of surrounding live cells in parent
+			bool newVal;
 			if (num <2 || num >3) { 
 				newVal = 0; //death by underpopulation or overpopulation
 			} else if (num == 3) {
@@ -120,7 +123,7 @@ void Gen2d::nextGen() {
 			} else { //num ==2, the cell stays the same
 				newVal = parent.at(row).at(col);
 			}
-			child.at(row).at(col) = newVal;
+			child.at(row).at(col) = newVal; //set the value in the grid to the new value
 		}
 	}
 }
@@ -134,6 +137,7 @@ int Gen2d::count(Position &pos){
 int Gen2d::count(int row, int col){
 	int count = 0;
 
+	//add each cell's value to count
 	//doing (i-1+width)_width to wrap around;
 	count+= parent.at((row-1+width) % width).at((col-1+width) % width); //top left 
 	count+= parent.at((row-1+width) % width).at(col); //top center
@@ -150,20 +154,21 @@ int Gen2d::count(int row, int col){
 
 //prints the grid
 void Gen2d::printGrid(vector<vector<bool>> grid) {
-	clearScreen();
+	clrscr();
 
 	vector<vector<bool>>::iterator colIt;
 
 	for (colIt=grid.begin(); colIt != grid.end(); ++colIt) {
 		vector<bool>::iterator rowIt;
 		for (rowIt = (*colIt).begin(); rowIt != (*colIt).end(); ++rowIt) {
+			//for each cell
 			if (*rowIt) {
-				cout << "😂 " <<flush;
+				cout << "■ " <<flush; //if 1 print a black square
 			} else {
-				cout << "🌑 " <<flush;
+				cout << "□ " <<flush; //if 0 print a white square
 			}
 		}
-		cout << "\n";
+		cout << "\n"; //go to the next line
 	}
 	cout <<endl;
 }

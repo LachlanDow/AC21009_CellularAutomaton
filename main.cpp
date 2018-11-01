@@ -107,6 +107,7 @@ int gol(){
     //get the grid height
 	height= checkedInput("Enter your desired height: ", 3);
 
+	cin.ignore();
 	Gen2d gen2d(width,height); //construct the game of life generator object
 	gen2d.run(); //run it
 	return 0;
