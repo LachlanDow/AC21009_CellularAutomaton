@@ -3,7 +3,7 @@
 
 using namespace std;
 
-//functions to be added to gen.h
+//functions to be added to main.h
 int getinput1();
 int getinput2();
 int create();
@@ -14,33 +14,39 @@ int prmenu(Gen gen);
 int main() {
 	int menu;
 	do {
-		cout << "\nCELLULAR AUTOMATON MAIN MENU\n";
-		cout << "1- Create Cellular Automaton\n";
-		cout << "2- Load Saved File\n";
-		cout << "3- Quit\n";
+		//cout << "\033[2J\033[1;1H" << flush;
+		cout << "\nCELLULAR AUTOMATON MAIN MENU\n" << flush;
+		cout << "1- Create Cellular Automaton\n" << flush;
+		cout << "2- Create 2D Cellular Automaton\n" << flush;
+		cout << "3- Game of Life\n" << flush;
+		cout << "4- Quit\n" << flush;
 		cin >> menu;
+		cout << "\033[2J\033[1;1H" << flush;
 
 		switch (menu) {
 		case 1:
-			cout << "CREATE CELLULAR AUTOMATON\n";
-			create();	//runs menus and submenus related to creating automaton 1D or 2D
+			cout << "CREATE CELLULAR AUTOMATON\n" << flush;
+			getinput1();	//runs menus and submenus related to creating automaton 1D or 2D
 			break;
 		case 2:
-			cout << "LOAD SAVED FILE\n";
-			//load();	Load function not yet implemented
+			cout << "LOAD SAVED FILE\n" << flush;
+			//getinput2();	//create 2D
 			break;
 		case 3:
+			//gameoflife()
+			break;
+		case 4:
 			break;
 		default:
 			cout << "INVALID CHOICE! RE-Input\n";
 		}
-	} while (menu != 3);
+	} while (menu != 4);
 	return 0;
 }
 
 
 //sub menu for creating automatons
-int create(){
+int create1D(){
 	int menu;
 	
 	do{
@@ -55,7 +61,7 @@ int create(){
 			getinput1();	//get inputs for 1D and execute relevant sub menus
 			break;
 		case 2:
-			//getinput2();    get inputs for 2D and execute relevant sub menus
+			getinput2();    //get inputs for 2D and execute relevant sub menus
 			break;
 		case 3:
 			break;
@@ -69,6 +75,7 @@ int create(){
 
 //get inputs for 1D automaton
 int getinput1(){
+	cout << "\033[2J\033[1;1H" << flush;
 	int width, height, seed, rule;
 	cout << "Enter your desired width: " << flush;
 	cin >> width;
@@ -82,29 +89,33 @@ int getinput1(){
 	cout << "What rule do you want to use? " << flush;
 	cin >> rule;
 
-//<<<<<<< HEAD
-	cout << "width " << width << ", height " << height
-		<< ", seed " << seed << ", rule " << rule << endl;
-	cout << "Ignoring those values and using defaults 32, 16, 15, 30." << endl;
-//=======
 	cout << "width " << width << ", height " << height <<  ", seed " << seed << ", rule " << rule;
 	cout << "Ignoring those values and using defaults 32,16,15,39.";
-//>>>>>>> 8f2ae5de79480114d4f19d2551adb133c326f8f9
 
 	Gen gen;
-//	gen.run();
-	prmenu(gen);		//default vers
+	gen.run();
+//	prmenu(gen);		//default vers
 
 	Gen gen2(width, height, seed, rule);
-//<<<<<<< HEAD
-//	gen2.run();
-
-//=======
-//	gen2.run();
-	prmenu(gen2);		//user vers
+	gen2.run();
+//	prmenu(gen2);		//user vers
 
 	return 0;
 
+}
+
+int getinput2(){
+	cout << "\033[2J\033[1;1H" << flush;
+	int width, height;
+	cout << "Enter your desired width: " << flush;
+	cin >> width;
+
+	cout << "Enter your desired height: " << flush;
+	cin >> height;
+
+	Gen2d gen2d(width, height);
+	gen2d.run();
+	return 1;
 }
 
 int prmenu(Gen gen){
@@ -112,10 +123,8 @@ int prmenu(Gen gen){
 
 	cout << "\nPRINT MENU\n";
 	cout << "1. Display Cellular Automaton\n";
-	cout << "2. Display as Decimal Value\n";
-	cout << "3. Quit\n";
+	cout << "2. Quit\n";
 	cin >> menu;
-	//gen.run();
 
 	do{
 		switch(menu){
@@ -124,14 +133,10 @@ int prmenu(Gen gen){
 				return 0;
 				break;
 			case 2:
-				//DISPLAY AS DECIMAL FUNCTION TO BE RAN
-				break;
-			case 3:
 				break;
 			default:
 				cout << "INVALID INPUT!!! RE-ENTER MENU INPUT: ";
 		}
-	}while(menu != 3);
-//>>>>>>> 8f2ae5de79480114d4f19d2551adb133c326f8f9
+	}while(menu != 2);
 	return 0;
 }
