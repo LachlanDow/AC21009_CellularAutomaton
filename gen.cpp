@@ -144,6 +144,8 @@ void Gen::setRule(int num) {
 		std::cin >> num;
 	}
  	decimalToBinary(num);
+ 	int thing = binaryToDecimal();
+ 	cout << thing << endl;
  	
 	//TODO convert decimal number to array of bools, kinda like:
 	
@@ -156,22 +158,32 @@ void Gen::setRule(int num) {
 	bool rule[ruleSize] = con.DecimalToBinary(num); //if we figure out how to return an array
 	
 */
-	cerr <<"this is not yet supported" <<endl;
-}
-void Gen::binaryToDecimal(int n){
 
+}
+int Gen::binaryToDecimal(){
+	// declare variable for decimal value
+	int decimal = 0;
+	for(int i = 0; i < 8;i++){
+		//loop to obtain decimal
+		decimal = decimal * 2 + rule[7-i].output;
+	}
+	return decimal;
 }
 
 void Gen::decimalToBinary(int n){
+	//set loop index to 0
 	int i = 0;
+	//loop while there is still numbers to calculate or there isn't an 8 bit binary number filled
+	
 	while (n > 0 || i < 8){
+		//if there is no more number to be divided add 0's to the number
 		if(n==0){
 			this->rule[i].output= 0;
 		}
+		//find the output fo the binary number
 		this->rule[i].output= n % 2;
+		// set the number to the number devided by two
 		n =n/2;
-		cout << this->rule[i].output <<endl;
-
 		i++;
 	}
 }

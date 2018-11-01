@@ -41,7 +41,7 @@ public:
 	void generateAndPrint();
 	void setRule(int);
 	void setRule(bool ruleSize[]);
-	void binaryToDecimal(int);
+	int binaryToDecimal();
 	void decimalToBinary(int);
 
 	void setParams(int,int,int,int);
