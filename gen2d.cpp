@@ -6,11 +6,13 @@
 #include <ctime>
 #include "gen2d.h"
 
+/*
 int main(){
 	Gen2d gen2d(20,20);
 	gen2d.run();
 	return 1;
 }
+*/
 
 void clearScreen()
 {
