@@ -7,151 +7,149 @@
 
 using namespace std;
 
-//functions to be added to main.h
+//these could have been added to main.h but there's only few of them so
+//we deemed doing that unnecessary
 int ca();
 int gol();
+int checkedInput(string, int);
+int checkedInput(string);
+void clrscr();
 
 
 int main() {
 	int menu;
-	do {				//do while for menu
-		cout << "\nCELLULAR AUTOMATON MAIN MENU\n" << flush;	//display menu options
+	do {	//do while for menu
+		cout << "\nCELLULAR AUTOMATON MAIN MENU\n" << flush; //display menu options
 		cout << "1- Create Cellular Automaton\n" << flush;
 		cout << "2- Game of Life\n" << flush;
 		cout << "3- Quit\n" << flush;
-		cin >> menu;			//get input
-		cout << "\033[2J\033[1;1H" << flush;	//clear screen
+		cin >> menu; //get input
+		clrscr(); //clear screen
 
-		switch (menu) {		//switch menu
-		case 1:		//create cellular automaton
+		switch (menu) {	
+		case 1:
 			cout << "CREATE CELLULAR AUTOMATON\n" << flush;
-			ca();	//runs menus and submenus related to creating automaton 1D or 2D
+			ca();	//cellular automaton
 			break;
-		case 2:			//game of life
+		case 2:
 			cout << "GAME OF LIFE\n" << flush;
-			gol();	//create 2D
+			gol();	//game of life
 			break;
-		case 3:			//quit
+		case 3:	//quit
 			break;
 		default:
 			cout << "INVALID CHOICE! RE-Input\n" << flush;
 		}
-	} while (menu != 3);		//termination
+	} while (menu != 3); //termination
 	return 0;
 }
 
 //1D automaton
 int ca(){
-	cout << "\033[2J\033[1;1H" << flush;		//clear
-	int width, height, rule;			//initialise variables
-
-
+	clrscr();
+	int width, height, rule;
 	
-	
-	bool valid = false;	//validatation variables
-	do{			//runs until correct input
-		cout << "Enter your desired width: " << flush;
-        cin >> width;
-        if (cin.good())
-        {
-            //everything went well, we'll get out of the loop and return the value
-            valid = true;
-        }
-        else
-        {
-            //something went wrong, we reset the buffer's state to good
-            cin.clear();
-            //and empty it
-            cin.ignore(numeric_limits<streamsize>::max(),'\n');
-            cout << "Invalid input; please re-enter." << endl;
-        }
-    } while (!valid);
+	//get width
+	width = checkedInput("Enter your desired width: ", 3); //minimum width is 3
 
+	//get height (number of generations)
+	height = checkedInput("Enter your desired height(number of generations): ", 0);
 
+	//the seed is inputted differently than the other values
+	cout << "Where do you want your seeds (positions separated by spaces)? " << flush;
 
-	valid = false;			//variable for validation
-	do{
-	cout << "Enter your desired height(number of generations): " << flush;
-        cin >> height;
-        if (cin.good())
-        {
-            //everything went well, we'll get out of the loop and return the value
-            valid = true;
-        }
-        else
-        {
-            //something went wrong, we reset the buffer's state to good
-            cin.clear();
-            //and empty it
-            cin.ignore(numeric_limits<streamsize>::max(),'\n');
-            cout << "Invalid input; please re-enter." << endl;
-        }
-    } while (!valid);
-
-
-	cout << "Where do you want your seeds (positions separated by spaces)? " << flush; //get input for seeds as line
 	string line;
-	cin.ignore();
-	getline(cin, line);
-	int number;
-	
-	vector<int> seed;
-	stringstream iss(line);
+	cin.ignore(); //clear the cin buffer (leaves a newline at the end otherwise)
+	getline(cin, line); //read the whole line
+	int number; 
+	vector<int> seed; 
+	stringstream iss(line); //string stream from the line that was just read
 
-	while (iss) {			//separate at spaces for seed options and validate for data type
+	while (iss) {
 		if (iss >> number) { //https://stackoverflow.com/a/20659156
-			seed.push_back( number );
+			//if read into the int successfully
+			if (number > 0) {
+				seed.push_back( number ); //add to the vector if positive
+			}
 		} else {
-			iss.clear();
-			char s;
-			iss >> s;
+			//if can't read into an int, i.e. most likely a character
+			iss.clear(); //clear the stream flags (such as fail)
+			char s; 
+			iss >> s; //save the buffer into a character which is not used 
 		}
-<<<<<<< HEAD
-}
-
-=======
 	}
->>>>>>> dd5723993041240e9f14edccb4047707d761ca81
 
-    valid = false;			//variable for validation
-	do{			//runs until valid
-	cout << "What rule do you want to use? " << flush;
-        cin >> rule;
-        if (cin.good())
-        {
-            //everything went well, we'll get out of the loop and return the value
-            valid = true;
-        }
-        else
-        {
-            //something went wrong, we reset the buffer's state to good
-            cin.clear();
-            //and empty it
-            cin.ignore(numeric_limits<streamsize>::max(),'\n');
-            cout << "Invalid input; please re-enter." << endl;
-        }
-    } while (!valid);
+	//get the rule as a decimal number
+	do {
+		rule = checkedInput("What rule do you want to use? ", 0);
+		//make sure it is within the 8 bit range
+		if (rule >255) {
+			cout << "The rule must be less than 256; please re-enter." <<endl;
+		}
+	} while (rule >255);
 
-	Gen gen2(width, height, seed, rule);	//generate automaton
-	gen2.run();		//display automaton
+	Gen gen(width, height, seed, rule); //construct a CA generator
+	gen.run();		//run the generator
 
-	return 0;
+	return 0; //could be later used to return error codes
 
 }
 
 
 //Game of life
 int gol(){
-	cout << "\033[2J\033[1;1H" << flush;	//clear screen
+	clrscr();
 	int width, height;
-	cout << "Enter your desired width: " << flush;	//get width input
-	cin >> width;
 
-	cout << "Enter your desired height: " << flush; //get height input
-	cin >> height;
+	//get the grid width
+    width = checkedInput("Enter your desired width: ",3);
 
-	Gen2d gen2d(width,height);		//generate game of life
-	gen2d.run();			//run game of life
-	return 1;
+    //get the grid height
+	height= checkedInput("Enter your desired height: ", 3);
+
+	Gen2d gen2d(width,height); //construct the game of life generator object
+	gen2d.run(); //run it
+	return 0;
+}
+
+//clear the screen
+void clrscr(){
+	cout << "\033[2J\033[1;1H" << flush; //the character for clearing the screen
+}
+
+
+int checkedInput(string s, int min){
+	int result;
+	do {
+		result = checkedInput(s); //call checkedInput(string)
+		if (result < min) { //if the result is too small, try again
+			cout << "This number must not be less than " << min 
+				<<"; please re-enter." <<endl;
+		}
+	} while (result < min);
+	return result;
+}
+
+int checkedInput(string s) {
+	int result;
+	bool valid = false;
+	do{
+	cout << s << flush;
+        cin >> result;
+        if (cin)
+        {
+            //everything went well, we'll get out of the loop and return the value
+            valid = true;
+        }
+        else
+        {
+            //something went wrong, we reset the buffer's state to good
+            cin.clear();
+            //and empty it
+            cin.ignore(numeric_limits<streamsize>::max(),'\n');
+            cout << "Invalid input; please re-enter." << endl;
+        }
+    } while (!valid);
+    return result;
 }
 
