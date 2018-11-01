@@ -1,6 +1,7 @@
 #include <iostream>
 #include <string>
 #include <sstream>
+#include <limits>
 #include "gen.h"
 #include "gen2d.h"
 
@@ -43,14 +44,50 @@ int main() {
 int ca(){
 	cout << "\033[2J\033[1;1H" << flush;
 	int width, height, rule;
-	cout << "Enter your desired width: " << flush;
+
+
+	
+	
+	bool valid = false;
+	do{
+		cout << "Enter your desired width: " << flush;
+        cin >> width;
+        if (cin.good())
+        {
+            //everything went well, we'll get out of the loop and return the value
+            valid = true;
+        }
+        else
+        {
+            //something went wrong, we reset the buffer's state to good
+            cin.clear();
+            //and empty it
+            cin.ignore(numeric_limits<streamsize>::max(),'\n');
+            cout << "Invalid input; please re-enter." << endl;
+        }
+    } while (!valid);
 
 
 
-	cin >> width;
-
+	valid = false;
+	do{
 	cout << "Enter your desired height(number of generations): " << flush;
-	cin >> height;
+        cin >> height;
+        if (cin.good())
+        {
+            //everything went well, we'll get out of the loop and return the value
+            valid = true;
+        }
+        else
+        {
+            //something went wrong, we reset the buffer's state to good
+            cin.clear();
+            //and empty it
+            cin.ignore(numeric_limits<streamsize>::max(),'\n');
+            cout << "Invalid input; please re-enter." << endl;
+        }
+    } while (!valid);
+
 
 	cout << "Where do you want your seeds (positions separated by spaces)? " << flush;
 	string line;
@@ -60,13 +97,35 @@ int ca(){
 	vector<int> seed;
 	stringstream iss(line);
 
-	while ( iss >> number ) {
-		seed.push_back( number );
-		//https://stackoverflow.com/a/20659156
-	}
+	while (iss) {
+		if (iss >> number) { //https://stackoverflow.com/a/20659156
+			seed.push_back( number );
+		} else {
+			iss.clear();
+			char s;
+			iss >> s;
+		}
+}
 
+
+    valid = false;
+	do{
 	cout << "What rule do you want to use? " << flush;
-	cin >> rule;
+        cin >> rule;
+        if (cin.good())
+        {
+            //everything went well, we'll get out of the loop and return the value
+            valid = true;
+        }
+        else
+        {
+            //something went wrong, we reset the buffer's state to good
+            cin.clear();
+            //and empty it
+            cin.ignore(numeric_limits<streamsize>::max(),'\n');
+            cout << "Invalid input; please re-enter." << endl;
+        }
+    } while (!valid);
 
 	Gen gen2(width, height, seed, rule);
 	gen2.run();		//user vers
