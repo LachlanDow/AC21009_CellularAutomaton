@@ -37,7 +37,7 @@ void Gen::setParams(int width, int height, int seed, int rule) {
 	this->width = width;
 	this->height = height;
 	this->seed = seed; //should be an array
-	this->setRule(rule);
+	//this->setRule(rule);
 	//cout << "ignoring your choice of rule " << rule << " and using rule 30 instead." <<endl;
 }
 
@@ -72,8 +72,8 @@ void Gen::init() {
 
 	//temp, rule 30 (if ascending, i.e [0] refers to 000, [1] to 001, etc,  [7] to 111)
 	//TODO - ask the user for a number, convert it to binary and save each digit here
-//	bool rule30[ruleSize] = {0,1,1,1,1,0,0,0};
-	setRule(45);
+	bool rule30[ruleSize] = {0,1,1,1,1,0,0,0};
+	setRule(rule30);
 }
 
 void Gen::nextGen(bool parent[], bool child[]) {
