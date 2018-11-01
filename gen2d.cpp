@@ -158,9 +158,9 @@ void Gen2d::printGrid(vector<vector<bool>> grid) {
 		vector<bool>::iterator rowIt;
 		for (rowIt = (*colIt).begin(); rowIt != (*colIt).end(); ++rowIt) {
 			if (*rowIt) {
-				cout << "■ ";
+				cout << "■ " <<flush;
 			} else {
-				cout << "□ ";
+				cout << "□ " <<flush;
 			}
 		}
 		cout << "\n";
