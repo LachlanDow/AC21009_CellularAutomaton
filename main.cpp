@@ -105,8 +105,12 @@ int ca(){
 			char s;
 			iss >> s;
 		}
+<<<<<<< HEAD
 }
 
+=======
+	}
+>>>>>>> dd5723993041240e9f14edccb4047707d761ca81
 
     valid = false;
 	do{
