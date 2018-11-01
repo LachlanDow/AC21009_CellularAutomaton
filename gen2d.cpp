@@ -88,7 +88,6 @@ void Gen2d::generateAndPrint(int numOfGens, int millis){
 		//loop numOfGens times
 		printGrid(parent); //print the grid
 		nextGen(); //get the next generation
-		parent = child;	 //set the parent to the child
 		std::this_thread::sleep_for(std::chrono::milliseconds(millis)); //sleep
 		 //https://stackoverflow.com/a/10613664
 	}
@@ -102,7 +101,6 @@ void Gen2d::generateAndPrint(){
 		//while the input is only a newline character and nothing else
 		printGrid(parent); //print the grid
 		nextGen(); //get the next generation
-		parent = child;	 //set the parent to the child
 		cout << "Press enter to show the next generation, or input any other character to stop." <<endl;
 		c = cin.get(); //get the next character
 	}
@@ -126,6 +124,8 @@ void Gen2d::nextGen() {
 			child.at(row).at(col) = newVal; //set the value in the grid to the new value
 		}
 	}
+
+	parent = child;	 //set the parent to the child
 }
 
 //same as count but with a different input parameter

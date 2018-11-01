@@ -4,12 +4,8 @@
 using namespace std;
 
 
-
-//int width = 32; //temp, ask for width later
-//int height = 16; //temp, ask for number of generations later
 const static int ruleSize = 8;
-const static char filename[] = "output.txt";
-//int width, height;
+const static char filename[] = "output.txt"; //file to save the output to
 
 struct ruleBlock {
 	//rename this?
@@ -19,19 +15,12 @@ struct ruleBlock {
 	bool output;	// the result, from the rule
 } ;
 
-//ruleBlock rule[ruleSize];
-//bool parent[width], child[width];	//temp ...or not?
-									//probable keep global but allocate memory dynamically
-
-//bool *parent, *child;
-
-
 
 class Gen {
 private:
 	int width, height;
 	bool *parent, *child;
-	vector<int> seed; //should be an array of size width
+	vector<int> seed; 
 	ruleBlock rule[ruleSize];
 
 	void init();
@@ -54,10 +43,3 @@ public:
 	Gen(int, int, int, int); 
 	Gen(int width, int height, vector<int> seed, int rule);
 };
-
-/*
-class Gen {
-public:
-	int run();
-};
-*/
