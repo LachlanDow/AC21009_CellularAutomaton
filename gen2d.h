@@ -39,7 +39,7 @@ private:
 	//ruleBlock rule[ruleSize];
 	vector<vector<bool>> parent, child;
 
-	void init();
+	void init(int width, int height);
 	int count(int row, int col);
 	int count(Position &pos);
 	//void initRule();
@@ -49,7 +49,7 @@ public:
 	void printGrid(vector<vector<bool>>);
 	void nextGen();
 	void randomize();
-	void generateAndPrint(int);
+	void generateAndPrint(int, int);
 	void generateAndPrint();
 	void seed(vector<Position> seed);
 	void gliderseed();

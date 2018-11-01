@@ -7,7 +7,7 @@
 #include "gen2d.h"
 
 int main(){
-	Gen2d gen2d;
+	Gen2d gen2d(20,20);
 	gen2d.run();
 	return 1;
 }
@@ -17,15 +17,15 @@ void clearScreen()
 	cout << string( 32, '\n' );
 }
 
-Gen2d::Gen2d(){
-	init();
+Gen2d::Gen2d(int width, int height){
+	init(width, height);
 }
 
 int Gen2d::run() {
-	//tempseed();
+	gliderseed();
 	//generateAndPrint(10);
 	//cin.ignore();
-	randomize();
+	//randomize();
 	//generateAndPrint(gens);
 	generateAndPrint();
 
@@ -54,10 +54,10 @@ int Gen2d::run() {
 }
 
 
-void Gen2d::init() {
+void Gen2d::init(int width, int height) {
 
-	width = 24;
-	height = 24;
+	this->width = width;
+	this->height = height;
 	gens = 50;
 	parent.resize(height);
 	child.resize(height);
@@ -105,12 +105,12 @@ void Gen2d::gliderseed(){
 }
 
 
-void Gen2d::generateAndPrint(int numOfGens){
+void Gen2d::generateAndPrint(int numOfGens, int millis){
 	for(int i = 0; i < numOfGens; i++) {
 		printGrid(parent);
 		nextGen();
 		parent = child;	
-		std::this_thread::sleep_for(std::chrono::milliseconds(150)); //https://stackoverflow.com/a/10613664
+		std::this_thread::sleep_for(std::chrono::milliseconds(millis)); //https://stackoverflow.com/a/10613664
 	}
 }
 
@@ -174,9 +174,9 @@ void Gen2d::printGrid(vector<vector<bool>> grid) {
 		vector<bool>::iterator rowIt;
 		for (rowIt = (*colIt).begin(); rowIt != (*colIt).end(); ++rowIt) {
 			if (*rowIt) {
-				cout << "■ ";
+				cout << "😂 ";
 			} else {
-				cout << "□ ";
+				cout << "🌑 ";
 			}
 		}
 		cout << "\n";
