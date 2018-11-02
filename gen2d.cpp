@@ -1,3 +1,10 @@
+/*
+  Group 19
+	Lachlan Dow			170010225
+	Afzal Miah			170010026
+	Frantisek Pavlica	170020274
+*/
+
 #include <iostream>
 #include <chrono>
 #include <thread>
